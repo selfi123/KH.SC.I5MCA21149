@@ -47,8 +47,6 @@ function pairStockPrices(firstStock, secondStock) {
     const smallestLength=Math.min(firstStock.length,secondStock.length);
     const firstPrices=[];
     const secondPrices=[];
-
-     
     for (let i=0; i<smallestLength;i++) {
         firstPrices.push(firstStock[i].price);
         secondPrices.push(secondStock[i].price);
@@ -91,6 +89,9 @@ app.get('/stocks/:symbol', async (req, res) => {
      
     if (!timePeriod || isNaN(timePeriod)) {
         return res.status(400).json({ error: 'enter valid value for minute' });
+    }
+    if (aggregation!=='average') {
+        return res.status(400).json({ error:'Aggregation must be "average"'});
     }
     try { 
         const stockPrices = await fetchStockData(stockSymbol, timePeriod);
